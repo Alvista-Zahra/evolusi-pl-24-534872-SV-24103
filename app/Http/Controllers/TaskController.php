@@ -20,4 +20,14 @@ class TaskController extends Controller
 
         return redirect('/')->with('success', 'Task berhasil ditambahkan.');
     }
+    public function updateStatus(Task $task)
+    {
+    $task->update([
+        'status' => $task->status === 'Completed'
+            ? 'Pending'
+            : 'Completed',
+    ]);
+
+    return redirect('/')->with('success', 'Status task berhasil diperbarui.');
+    }
 }

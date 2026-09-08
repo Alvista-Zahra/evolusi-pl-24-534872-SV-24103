@@ -190,6 +190,27 @@
             white-space: nowrap;
         }
 
+        .task-actions {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .task-actions form {
+            display: inline-block;
+        }
+
+        .task-actions button {
+            border: 1px solid var(--border);
+            background: #fff;
+            color: var(--primary);
+            padding: 8px 12px;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
         .completed {
             background: var(--success-bg);
             color: var(--success-text);
@@ -289,9 +310,20 @@
                             <span>{{ $task->title }}</span>
                         </div>
 
-                        <span class="status {{ $task->status === 'Completed' ? 'completed' : 'pending' }}">
-                            {{ $task->status }}
-                        </span>
+                        <div class="task-actions">
+                            <span class="status {{ $task->status === 'Completed' ? 'completed' : 'pending' }}">
+                                {{ $task->status }}
+                            </span>
+
+                            <form action="{{ route('tasks.update-status', $task) }}" method="POST">
+                                @csrf
+                                @method('PATCH')
+
+                                <button type="submit">
+                                    {{ $task->status === 'Completed' ? 'Mark as Pending' : 'Mark as Completed' }}
+                                </button>
+                            </form>
+                        </div>
                     </div>
                 @endforeach
             @endif
