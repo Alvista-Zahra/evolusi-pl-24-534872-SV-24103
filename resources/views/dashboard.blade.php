@@ -6,6 +6,19 @@
     <title>Task Dashboard</title>
 
     <style>
+        :root {
+            --bg: #f4f7fb;
+            --card: #ffffff;
+            --primary: #1f2937;
+            --muted: #6b7280;
+            --border: #e5e7eb;
+            --success-bg: #e8f8ee;
+            --success-text: #1f8f5f;
+            --warning-bg: #fff5d8;
+            --warning-text: #a86b00;
+            --shadow: 0 10px 25px rgba(15, 23, 42, 0.06);
+        }
+
         * {
             margin: 0;
             padding: 0;
@@ -14,33 +27,66 @@
 
         body {
             font-family: Arial, sans-serif;
-            background: #f5f6fa;
-            color: #222;
+            background: var(--bg);
+            color: var(--primary);
         }
 
         .container {
             max-width: 1100px;
             margin: 0 auto;
-            padding: 40px 20px;
+            padding: 40px 20px 60px;
         }
 
         .header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 40px;
+            gap: 20px;
+            margin-bottom: 28px;
         }
 
         .header h1 {
-            font-size: 28px;
+            font-size: clamp(28px, 2vw, 36px);
+            font-weight: 700;
         }
 
-        .add-button {
-            background: #222;
-            color: white;
-            text-decoration: none;
-            padding: 12px 20px;
-            border-radius: 8px;
+        .task-form {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .task-form input {
+            min-width: 260px;
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 12px 14px;
+            background: #fff;
+            font-size: 14px;
+            outline: none;
+        }
+
+        .task-form input:focus {
+            border-color: #a5b4fc;
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.12);
+        }
+
+        .task-form button {
+            border: none;
+            background: var(--primary);
+            color: #fff;
+            padding: 12px 18px;
+            border-radius: 10px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.2s ease;
+        }
+
+        .task-form button:hover {
+            opacity: 0.96;
+            transform: translateY(-1px);
         }
 
         .welcome {
@@ -48,54 +94,61 @@
         }
 
         .welcome h2 {
-            font-size: 24px;
+            font-size: clamp(24px, 2vw, 30px);
             margin-bottom: 8px;
         }
 
         .welcome p {
-            color: #777;
+            color: var(--muted);
+            font-size: 15px;
         }
 
         .stats {
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
+            grid-template-columns: repeat(3, minmax(0, 1fr));
             gap: 20px;
             margin-bottom: 35px;
         }
 
         .card {
-            background: white;
-            padding: 25px;
-            border-radius: 12px;
-            box-shadow: 0 3px 12px rgba(0,0,0,0.05);
+            background: var(--card);
+            padding: 24px 22px;
+            border-radius: 14px;
+            box-shadow: var(--shadow);
+            border: 1px solid rgba(17, 24, 39, 0.02);
         }
 
         .card h3 {
-            font-size: 32px;
-            margin-bottom: 5px;
+            font-size: 34px;
+            margin-bottom: 6px;
+            line-height: 1.1;
         }
 
         .card p {
-            color: #777;
+            color: var(--muted);
+            font-size: 14px;
         }
 
         .tasks {
-            background: white;
-            border-radius: 12px;
-            padding: 25px;
-            box-shadow: 0 3px 12px rgba(0,0,0,0.05);
+            background: var(--card);
+            border-radius: 14px;
+            padding: 24px 20px;
+            box-shadow: var(--shadow);
+            border: 1px solid rgba(17, 24, 39, 0.02);
         }
 
         .tasks h2 {
-            margin-bottom: 20px;
+            margin-bottom: 16px;
+            font-size: 24px;
         }
 
         .task {
             display: flex;
             justify-content: space-between;
             align-items: center;
+            gap: 16px;
             padding: 16px 0;
-            border-bottom: 1px solid #eee;
+            border-bottom: 1px solid var(--border);
         }
 
         .task:last-child {
@@ -106,22 +159,51 @@
             display: flex;
             gap: 12px;
             align-items: center;
+            min-width: 0;
+        }
+
+        .task-icon {
+            width: 24px;
+            height: 24px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            font-weight: 700;
+            background: #f3f4f6;
+            color: var(--primary);
+            flex-shrink: 0;
+        }
+
+        .task-title span:last-child {
+            word-break: break-word;
         }
 
         .status {
-            padding: 6px 12px;
-            border-radius: 20px;
-            font-size: 13px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 7px 12px;
+            border-radius: 999px;
+            font-size: 12px;
+            font-weight: 700;
+            white-space: nowrap;
         }
 
         .completed {
-            background: #e7f7ed;
-            color: #218838;
+            background: var(--success-bg);
+            color: var(--success-text);
         }
 
         .pending {
-            background: #fff3cd;
-            color: #856404;
+            background: var(--warning-bg);
+            color: var(--warning-text);
+        }
+
+        .empty-state {
+            padding: 28px 16px 10px;
+            text-align: center;
+            color: var(--muted);
         }
 
         @media (max-width: 700px) {
@@ -132,77 +214,88 @@
             .header {
                 flex-direction: column;
                 align-items: flex-start;
-                gap: 15px;
+            }
+
+            .task-form {
+                width: 100%;
+            }
+
+            .task-form input {
+                width: 100%;
+                min-width: 0;
+            }
+
+            .task {
+                flex-direction: column;
+                align-items: flex-start;
             }
         }
     </style>
 </head>
 
 <body>
+    <div class="container">
+        <div class="header">
+            <h1>Task Dashboard</h1>
 
-<div class="container">
-
-    <div class="header">
-        <h1>Task Dashboard</h1>
-        <a href="#" class="add-button">+ Add Task</a>
-    </div>
-
-    <div class="welcome">
-        <h2>Good morning! 👋</h2>
-        <p>Here's your task overview for today.</p>
-    </div>
-
-    <div class="stats">
-
-        <div class="card">
-            <h3>{{ $totalTasks }}</h3>
-            <p>Total Tasks</p>
+            <form action="{{ route('tasks.store') }}" method="POST" class="task-form">
+                @csrf
+                <input
+                    type="text"
+                    name="title"
+                    placeholder="Tambah tugas baru..."
+                    required
+                >
+                <button type="submit">Tambah</button>
+            </form>
         </div>
 
-        <div class="card">
-            <h3>{{ $completedTasks }}</h3>
-            <p>Completed</p>
+        <div class="welcome">
+            <h2>Selamat pagi! 👋</h2>
+            <p>Berikut ringkasan tugas Anda hari ini.</p>
         </div>
 
-        <div class="card">
-            <h3>{{ $pendingTasks }}</h3>
-            <p>Pending</p>
-        </div>
-
-    </div>
-
-    <div class="tasks">
-
-        <h2>My Tasks</h2>
-
-        @foreach ($tasks as $task)
-
-            <div class="task">
-
-                <div class="task-title">
-
-                    @if ($task['status'] === 'Completed')
-                        <span>✓</span>
-                    @else
-                        <span>○</span>
-                    @endif
-
-                    <span>{{ $task->title }}</span>
-
-                </div>
-
-                <span class="status
-                    {{ $task->status === 'Completed' ? 'completed' : 'pending' }}">
-                    {{ $task->status }}
-                </span>
-
+        <div class="stats">
+            <div class="card">
+                <h3>{{ $totalTasks }}</h3>
+                <p>Total Tugas</p>
             </div>
 
-        @endforeach
+            <div class="card">
+                <h3>{{ $completedTasks }}</h3>
+                <p>Selesai</p>
+            </div>
 
+            <div class="card">
+                <h3>{{ $pendingTasks }}</h3>
+                <p>Belum Selesai</p>
+            </div>
+        </div>
+
+        <div class="tasks">
+            <h2>Daftar Tugas</h2>
+
+            @if ($tasks->isEmpty())
+                <div class="empty-state">
+                    Belum ada tugas yang ditambahkan.
+                </div>
+            @else
+                @foreach ($tasks as $task)
+                    <div class="task">
+                        <div class="task-title">
+                            <span class="task-icon">
+                                {{ $task->status === 'Completed' ? '✓' : '○' }}
+                            </span>
+                            <span>{{ $task->title }}</span>
+                        </div>
+
+                        <span class="status {{ $task->status === 'Completed' ? 'completed' : 'pending' }}">
+                            {{ $task->status }}
+                        </span>
+                    </div>
+                @endforeach
+            @endif
+        </div>
     </div>
-
-</div>
-
 </body>
 </html>
