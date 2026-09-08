@@ -187,13 +187,13 @@
                         <span>○</span>
                     @endif
 
-                    <span>{{ $task['title'] }}</span>
+                    <span>{{ $task->title }}</span>
 
                 </div>
 
                 <span class="status
-                    {{ $task['status'] === 'Completed' ? 'completed' : 'pending' }}">
-                    {{ $task['status'] }}
+                    {{ $task->status === 'Completed' ? 'completed' : 'pending' }}">
+                    {{ $task->status }}
                 </span>
 
             </div>
